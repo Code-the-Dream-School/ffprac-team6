@@ -3,7 +3,7 @@
 import { useState } from "react";
 import useAuthUser from "../../store/useAuthUser";
 
-const LoginPage = () => {
+const SignInPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: ""
@@ -51,4 +51,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignInPage;
