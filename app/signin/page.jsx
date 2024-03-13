@@ -2,9 +2,10 @@
 
 import { useState } from 'react';
 import useAuthUser from '../../store/useAuthUser';
-import { Container, Box, TextField, Button, Typography, CircularProgress, InputAdornment, IconButton } from '@mui/material';
+import { Container, Box, TextField, Button, Typography, CircularProgress, InputAdornment, IconButton, Divider } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import GoogleIcon from '@mui/icons-material/Google'; 
 
 const SignInPage = () => {
   const [formData, setFormData] = useState({
@@ -37,6 +38,15 @@ const SignInPage = () => {
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      console.log('Google sign-in successful');
+    } catch (error) {
+      console.error('Google sign-in failed:', error);
+    }
+  };
+
 
   return (
     <Container component="main" maxWidth="xs">
@@ -98,6 +108,20 @@ const SignInPage = () => {
             disabled={isLoading}
           >
             {isLoading ? <CircularProgress size={24} /> : 'Log In'}
+          </Button>
+          <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
+            <Divider sx={{ flexGrow: 1 }} />
+            <Typography sx={{ mx: 2, color: 'text.secondary' }}>or</Typography>
+            <Divider sx={{ flexGrow: 1 }} />
+          </Box>
+          <Button
+            onClick={handleGoogleSignIn}
+            fullWidth
+            variant="outlined"
+            sx={{ mt: 2, mb: 2 }}
+            startIcon={<GoogleIcon />}
+          >
+            Sign in with Google
           </Button>
         </Box>
       </Box>
