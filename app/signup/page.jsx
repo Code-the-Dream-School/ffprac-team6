@@ -1,8 +1,9 @@
 'use client'
 
+import { useRouter } from "next/navigation";
 import { useState } from 'react';
 import useAuthUser from '../../store/useAuthUser';
-import { Container, Box, TextField, Button, Typography, CircularProgress, Link, InputAdornment, IconButton } from '@mui/material';
+import { Container, Box, TextField, Button, Typography, CircularProgress, Link, InputAdornment, IconButton, Divider } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -15,6 +16,7 @@ const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { register, isLoading, error } = useAuthUser();
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,12 +36,17 @@ const SignUpPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       await register(formData);
       console.log('Registration successful');
     } catch (error) {
       console.error('Registration failed:', error);
     }
+  };
+
+  const handleLoginRedirect = () => {
+    router.push('/signin'); 
   };
 
   return (
@@ -133,7 +140,7 @@ const SignUpPage = () => {
             }}
           />
           <Typography variant="caption" display="block" gutterBottom>
-          <Link href="#" disabled variant="caption" sx={{ float: 'right' }} underline="none">
+            <Link href="#" disabled variant="caption" sx={{ float: 'right' }} underline="none">
               Forgot password?
             </Link>
           </Typography>
@@ -146,6 +153,19 @@ const SignUpPage = () => {
           >
             {isLoading ? <CircularProgress size={24} /> : 'Sign Up'}
           </Button>
+          <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
+            <Divider sx={{ flexGrow: 1 }} />
+            <Typography sx={{ mx: 2, color: 'text.secondary' }}>or</Typography>
+            <Divider sx={{ flexGrow: 1 }} />
+          </Box> 
+          <Button
+            onClick={handleLoginRedirect}
+            fullWidth
+            variant="contained"
+            sx={{ mt: 2, mb: 2 }}
+          >
+            Login with an existing aacount
+          </Button> 
         </Box>
       </Box>
     </Container>
