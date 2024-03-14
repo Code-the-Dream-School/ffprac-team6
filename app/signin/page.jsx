@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from 'react';
+import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
+import { useState, useEffect } from 'react';
 import useAuthUser from '../../store/useAuthUser';
-import { Container, Box, TextField, Button, Typography, CircularProgress, InputAdornment, IconButton, Divider } from '@mui/material';
+import { Container, Box, TextField, Button, Typography, CircularProgress, InputAdornment, IconButton, Divider, Link } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import GoogleIcon from '@mui/icons-material/Google'; 
@@ -15,6 +17,14 @@ const SignInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const { login, isLoading, error } = useAuthUser();
+  const router = useRouter();
+  const { data: session, status: sessionStatus } = useSession();
+
+  useEffect(() => {
+    if (sessionStatus === "authenticated") {
+      router.replace("/market");
+    }
+  }, [sessionStatus, router]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,10 +38,12 @@ const SignInPage = () => {
     e.preventDefault();
     console.log('Form data on submit:', formData);
     try {
-      await login(formData);
+      await login(credentials, formData);
       console.log('Login successful');
+      setError("");
     } catch (error) {
-      console.error('Login failed:', error);
+      setError("Invalid email or password");
+      console.log(error)
     }
   };
 
@@ -39,9 +51,14 @@ const SignInPage = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleRegisterRedirect = () => {
+    router.push('/signup'); 
+  };
+
+
   const handleGoogleSignIn = async () => {
     try {
-      console.log('Google sign-in successful');
+      await signIn("google");
     } catch (error) {
       console.error('Google sign-in failed:', error);
     }
@@ -109,6 +126,12 @@ const SignInPage = () => {
           >
             {isLoading ? <CircularProgress size={24} /> : 'Log In'}
           </Button>
+          <Typography variant="body2" sx={{ mt: 0, mb: 2, textAlign: 'center', fontSize: '0.875rem' }}>
+            Don't have an account?{' '}
+            <Link href="#" onClick={handleRegisterRedirect} sx={{ cursor: 'pointer', fontWeight: 'bold' }}>
+              Register
+            </Link>
+          </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
             <Divider sx={{ flexGrow: 1 }} />
             <Typography sx={{ mx: 2, color: 'text.secondary' }}>or</Typography>
@@ -117,7 +140,7 @@ const SignInPage = () => {
           <Button
             onClick={handleGoogleSignIn}
             fullWidth
-            variant="outlined"
+            variant="contained"
             sx={{ mt: 2, mb: 2 }}
             startIcon={<GoogleIcon />}
           >
