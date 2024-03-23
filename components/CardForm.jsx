@@ -22,7 +22,8 @@ import { Image } from "@mui/icons-material";
 
 export default function CardForm({ cardValue, onSubmitForm }) {
   const [cardCategory, setCardCategory] = useState(cardValue?.category);
-  const [image, setImage] = useState(value?.imageURL || "");
+  //commented code for form data
+  // const [image, setImage] = useState(value?.imageURL || "");
   const editCard = cardValue.name ? true : false;
   //we do will implement image upload and remove img
   const img = "https://m.media-amazon.com/images/I/51skd-tjunL._AC_.jpg";
