@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   Box,
   Button,
@@ -27,6 +27,13 @@ export default function CardForm({ cardValue, onSubmitForm }) {
   const [isHovered, setIsHovered] = useState(false);
   const [error, setError] = useState("");
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    const { imageURL } = cardValue;
+    if (imageURL) {
+      setImageURL(imageURL);
+    }
+  }, [cardValue]);
 
   const editCard = cardValue.name ? true : false;
   const conditionVariants = cardCategory => {
@@ -84,26 +91,31 @@ export default function CardForm({ cardValue, onSubmitForm }) {
     fileInputRef.current.click();
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
-    const defaultImageUrl = "https://res.cloudinary.com/dfoiixlup/image/upload/v1711381226/vr2hc3udhtc8z9u1hrp4.png";
-    const finalImageUrl = imageURL || defaultImageUrl;
-
+  
+    const { 
+      cardName, set, price, currency, shippingCost, 
+      description, conditions, quantity, available 
+    } = e.target.elements;
+  
+    const finalImageUrl = imageURL || `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/upload/v1711381226/vr2hc3udhtc8z9u1hrp4.png`;
+    
     const formData = {
-      name: e.target.elements.cardName.value,
-      set: e.target.elements.set.value,
-      price: e.target.elements.price.value,
-      currency: e.target.elements.currency.value,
-      shippingCost: e.target.elements.shippingCost.value,
-      description: e.target.elements.description.value,
-      conditions: e.target.elements.conditions.value,
-      quantity: e.target.elements.quantity.value,
-      available: e.target.elements.available.value,
+      name: cardName.value,
+      set: set.value,
+      price: price.value,
+      currency: currency.value,
+      shippingCost: shippingCost.value,
+      description: description.value,
+      conditions: conditions.value,
+      quantity: quantity.value,
+      available: available.value,
       category: cardCategory,
       imageURL: finalImageUrl
     };
+  
     await onSubmitForm(formData);
   };
 
