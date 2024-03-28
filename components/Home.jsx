@@ -1,65 +1,67 @@
 "use client";
 import React from "react";
+import CardsHome from "/components/CardsHome";
 import { useRouter } from "next/navigation";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
 
 export default function Home() {
   const router = useRouter();
+  const theme = useTheme(); // Access the theme
+
   return (
-    <Box
-      height="100vh"
-      display="flex"
-      flexDirection="column"
-      justifyContent="space-between"
-      onClick={() => router.push("/market")}
-      sx={{
-        "position": "relative",
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-          backgroundImage: "url(/landing_page.jpeg)",
-          backgroundSize: "cover", // Changed from "contain" to "cover" The background image is scaled to cover the entire area of the pseudo-element
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          opacity: 0.7,
-          zIndex: -1
-        }
-      }}>
-      <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" flexGrow={1}>
-        <Typography variant="h2" color="primary" gutterBottom></Typography>
+    <Box height="100vh">
+      <Box
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        sx={{
+          "position": "relative",
+          "height": "100%",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            backgroundImage: "url(/landing_page.jpeg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            opacity: 0.7,
+            zIndex: -1
+          }
+        }}>
         <Button
           variant="contained"
           color="accent"
+          onClick={() => router.push("/market")}
           sx={{
-            "fontSize": {
-              xs: "1em",
-              sm: "1.5em",
-              md: "2em",
-              lg: "2.5em"
-            },
-            "fontWeight": "bold",
-            "padding": {
-              xs: "1px 16px",
-              sm: "4px 24px",
-              md: "4px 32px",
-              lg: "6px 30px"
-            },
-            "letterSpacing": "3px",
-            "borderRadius": "20px",
+            "position": "absolute",
+            "top": "50%",
+            "left": "50%",
+            "transform": "translate(-50%, -50%)",
+            "fontSize": theme.typography.h4.fontSize,
+            "padding": theme.spacing(1),
+            "letterSpacing": "10px",
+            "paddingLeft": theme.spacing(2),
+            "borderRadius": theme.shape.borderRadius, // Use the theme border radius
             "&:hover": {
-              backgroundColor: "white"
+              backgroundColor: theme.palette.background.paper
             }
           }}>
           START
         </Button>
       </Box>
-      <Box display="flex" justifyContent="center" alignItems="center" height="30vh" bgcolor="background.paper">
-        <p>Future paginated cards will go here</p>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="flex-start"
+        sx={{ height: { xs: "auto", sm: "auto" }, pt: 0, mt: 2 }}>
+        <CardsHome />
       </Box>
+      <Box height="1em" />
     </Box>
   );
 }
