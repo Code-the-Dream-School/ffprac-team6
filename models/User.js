@@ -45,8 +45,12 @@ const UserSchema = new Schema({
   address: {
     type: String,
     required: function () {
-      return this.reqToBeSeller;
+      return this.isSeller === true;
     }
+  },
+  isSeller: {
+    type: Boolean,
+    default: false
   }
 });
 
