@@ -58,7 +58,7 @@ export const authOptions = {
     async signIn({ user, account, profile }) {
       if (account.provider === "google") {
         try {
-          db.connect()
+          await db.connect()
 
           const { name, email, sub } = profile;
 
