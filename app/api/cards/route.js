@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/lib/mongo/dbConnect";
+import db from "@/lib/mongo/dbConnect";
 import { getToken } from "next-auth/jwt";
 import Card from "@/models/Card";
 
@@ -12,7 +12,7 @@ import Card from "@/models/Card";
 //GET all cards
 //all can watch all cards
 export async function GET(req, res) {
-  await dbConnect();
+  await db.connect();
   try {
     // Fetch all cards from the database
     const cards = await Card.find({});
@@ -27,7 +27,7 @@ export async function GET(req, res) {
 
 //Create card
 export async function POST(req) {
-  await dbConnect();
+  await db.connect();
   try {
     const token = await getToken({ req });
     if (!token) {
@@ -77,7 +77,7 @@ export async function POST(req) {
 
 //Delete all cards
 export async function DELETE(req) {
-  await dbConnect();
+  await db.connect();
   try {
     const token = await getToken({ req });
     if (!token) {

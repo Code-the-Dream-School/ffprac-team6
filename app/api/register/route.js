@@ -1,4 +1,4 @@
-import dbConnect from "@lib/mongo/dbConnect";
+import db from "@lib/mongo/dbConnect";
 import User from "@/models/User";
 import { NextResponse, NextRequest } from "next/server";
 import createAssociatedModels from "@/utils/createAssociatedModels";
@@ -9,8 +9,8 @@ import createAssociatedModels from "@/utils/createAssociatedModels";
  */
 
 export const POST = async req => {
-  await dbConnect();
   try {
+    await db.connect();
     const { name, email, password } = await req.json();
 
     if (!name || !email || !password) {

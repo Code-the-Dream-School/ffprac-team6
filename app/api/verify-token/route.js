@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@lib/mongo/dbConnect';
+import db from '@lib/mongo/dbConnect';
 import User from '@/models/User';
 import crypto from 'crypto';
 
@@ -9,7 +9,7 @@ import crypto from 'crypto';
  */
 
 export const POST = async req => {
-    await dbConnect();
+    await db.connect();
     const requestBody = await req.json();
     const token = requestBody.token;
 

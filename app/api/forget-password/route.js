@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import dbConnect from "@lib/mongo/dbConnect";
+import db from "@lib/mongo/dbConnect";
 import User from "@/models/User";
 import { NextResponse, NextRequest } from "next/server";
 import createTransporter from "../../../utils/mailerConfig";
@@ -11,7 +11,7 @@ import { passwordResetEmail } from "../../../utils/emailTemplates/passwordResetE
  */
 
 export const POST = async req => {
-  await dbConnect();
+  await db.connect();
   const { email } = await req.json();
 
   if (!email) {

@@ -1,4 +1,4 @@
-import dbConnect from "@lib/mongo/dbConnect";
+import db from "@lib/mongo/dbConnect";
 import User from "@/models/User";
 import { NextResponse } from "next/server";
 
@@ -8,9 +8,9 @@ import { NextResponse } from "next/server";
  */
 
 export const POST = async req => {
-    await dbConnect();
     const requestBody = await req.json();
     try {
+        await db.connect();
         const { password, email } = requestBody;
 
         const existingUser = await User.findOne({ email: email });

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import dbConnect from "@/lib/mongo/dbConnect";
+import db from "@/lib/mongo/dbConnect";
 import User from "@/models/User";
 
 /**
@@ -13,7 +13,7 @@ import User from "@/models/User";
 
 // Update a user profile
 export const PUT = async req => {
-  await dbConnect();
+  await db.connect();
   const session = await getServerSession(authOptions);
 
   console.log("PUT IS HERE", session);

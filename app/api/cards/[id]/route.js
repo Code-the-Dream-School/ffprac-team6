@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/lib/mongo/dbConnect";
+import db from "@/lib/mongo/dbConnect";
 import { getToken } from "next-auth/jwt";
 import Card from "@/models/Card";
 
@@ -10,7 +10,7 @@ import Card from "@/models/Card";
  */
 //all can watch single card
 export async function GET(req, res) {
-  await dbConnect();
+  await db.connect();
   try {
     //receive id from url
     const id = req.url.split("cards/")[1];
@@ -30,7 +30,7 @@ export async function GET(req, res) {
 
 //edit data
 export async function PATCH(req, res) {
-  await dbConnect();
+  await db.connect();
   try {
     const token = await getToken({ req });
     if (!token) {

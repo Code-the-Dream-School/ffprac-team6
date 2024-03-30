@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-import dbConnect from "@/lib/mongo/dbConnect";
+import db from "@/lib/mongo/dbConnect";
 import createAssociatedModels from "@/utils/createAssociatedModels";
 
 /**
@@ -14,8 +14,9 @@ import createAssociatedModels from "@/utils/createAssociatedModels";
  */
 const login = async credentials => {
   const { email, password } = credentials;
-  await dbConnect();
+ 
   try {
+    await db.connect()
     const user = await User.findOne({ email });
     if (!user) throw new Error("Missing credentials");
 
@@ -57,8 +58,9 @@ export const authOptions = {
     async signIn({ user, account, profile }) {
       if (account.provider === "google") {
         try {
+          db.connect()
+
           const { name, email, sub } = profile;
-          await dbConnect();
 
           const user = await User.findOne({ email });
           // console.log("userExist", user);
