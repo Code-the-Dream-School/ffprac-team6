@@ -139,3 +139,17 @@ export async function fetchSellerData(id) {
   const data = await response.json();
   return data.data;
 }
+
+export async function fetchSellerCardsWithoutFilter(sellerId) {
+  console.log("sellerId in fetch", sellerId);
+  let url = `/api/cards/sell/${sellerId}`;
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    console.log(data.errors);
+    const detailedErrorMessage = data.errors ? data.errors.join(", ") : data.message;
+    throw new Error(detailedErrorMessage || "Unknown error occurred.");
+  }
+  const data = await response.json();
+  return data.data;
+}
