@@ -34,37 +34,45 @@ export default function CardComponent({ card, showButtons = true, buttonSet }) {
         display: "flex",
         flexDirection: "column",
         border: "none",
-        maxWidth: 220,
-        height: "100%",
+        maxWidth: 160,
+        // height: "80%",
         justifyContent: "space-between"
       }}>
-      <CardActionArea component="button" onClick={id => router.push(`/market/item/${card._id}`)}>
+      <CardActionArea
+        component="button"
+        sx={{
+          display: "flex",
+          flexDirection: "column"
+        }}
+        onClick={id => router.push(`/market/item/${card._id}`)}>
         <CardMedia
           sx={{ objectFit: "cover", padding: 0, borderRadius: 1 }}
           component="img"
           image={card.imageURL}
           alt={card.name}
-          height="300"
+          height={250}
         />
         <CardContent sx={{ p: 0.5 }}>
-          <Box sx={{ display: "flex" }}>
-            <Typography gutterBottom variant="body2" component="div" flexGrow="1">
-              {card.name}
-            </Typography>
+          {/* <Box sx={{ display: "flex", flexDirection: "column" }}> */}
+          <Typography gutterBottom variant="body2" fontWeight="bold" component="div" flexGrow="1">
+            {card.name}
+          </Typography>
+          <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", gap: 1 }}>
             <Typography gutterBottom variant="body2" component="div">
               {card.category}
             </Typography>
             <Typography gutterBottom variant="body2" component="div">
               {card.conditions}
             </Typography>
-            <Typography gutterBottom variant="body2" component="div">
-              {card.price} {card.currency}
-            </Typography>
           </Box>
+          <Typography gutterBottom variant="body2" component="div">
+            {card.price} {card.currency}
+          </Typography>
+          {/* </Box> */}
         </CardContent>
       </CardActionArea>
       {showButtons && (
-        <CardActions sx={{ p: 0.5 }}>
+        <CardActions sx={{ p: 0.5, justifyContent: "center" }}>
           {/* <Button disabled onClick={buyNow} variant="contained" color="secondary">
             Buy Now
           </Button> */}

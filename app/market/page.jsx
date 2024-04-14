@@ -63,8 +63,16 @@ export default function Market() {
 
   return (
     <>
-      <Box display="flex" flexDirection="column" sx={{ m: 5 }}>
-        <Box display="flex" sx={{ flexDirection: { xs: "column", sm: "row" } }}>
+      {/* <Box display="flex" flexDirection="column" sx={{ m: 5 }}> */}
+      {/* <Grid container spacing={3} direction="column" sx={{ p: 0, m: 2 }}> */}
+      <Grid container sx={{ p: 0, m: 3, flexDirection: { xs: "column", sm: "row" } }} spacing={3}>
+        <Grid
+          item
+          xs={12}
+          sm={5}
+          md={4}
+          lg={3}
+          sx={{ border: 1, borderColor: "gray.300", borderRadius: 2, p: 2, boxShadow: 3 }}>
           <Box
             display={{ xs: "block", sm: "none" }}
             sx={{
@@ -97,7 +105,7 @@ export default function Market() {
                   <CloseIcon sx={{ fontSize: "40px" }} />
                 </IconButton>
               </Box>
-              <Filter filtersParams={filters}/>
+              <Filter filtersParams={filters} />
             </Box>
             <Box sx={{ p: 2 }}>
               <Button
@@ -125,50 +133,70 @@ export default function Market() {
               p: 1,
               boxShadow: 3
             }}>
-            <Filter filtersParams={filters}/>
+            <Filter filtersParams={filters} />
           </Box>
-          <Box
-            sx={{
-              flex: 8,
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              minHeight: "70vh"
-            }}>
-            {cards.length > 0 ? (
-              <Grid container alignItems="center" sx={{ alignItems: "center", gap: 5, justifyContent: "center" }}>
-                {cards.map(card => (
-                  <Grid
-                    item
-                    xs={12}
-                    key={card._id}
-                    md={4}
-                    lg={3}
-                    align="center"
-                    alignItems="center"
-                    justifyContent="center"
-                    sx={{ p: 0, m: 1 }}>
-                    <CardComponent card={card} />
-                  </Grid>
-                ))}
+        </Grid>
+        <Grid item xs={12} sm={7} md={8} lg={9} sx={{ p: 2, flex: 8, width: "100%" }}>
+          {/* <Box
+          sx={{
+            flex: 8,
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "70vh"
+          }}> */}
+          {cards.length > 0 ? (
+            // <Grid container sx={{ flexDirection: "column", p: 2 }} spacing={3}>
+
+            <Grid container spacing={3} sx={{ p: 2 }}>
+              {/* <Grid item sx={{ p: 2 }}> */}
+              {/* <Grid
+              container
+               alignItems="center"
+               justifyItems="center"
+                sx={{ gap: 5 }}> */}
+              {cards.map(card => (
+                <Grid
+                  item
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  lg={3}
+                  key={card._id}
+                  align="center"
+                  // alignItems="space-evenly"
+                  // alignItems="center"
+                  // justifyContent="space-evenly"
+                  sx={{ p: 2 }}>
+                  <CardComponent card={card} />
+                </Grid>
+              ))}
+              {/* </Grid> */}
+              {/* </Grid> */}
+              <Grid item xs={12} sx={{ textAlign: "center" }} align="center">
+                <Stack spacing={2} alignItems="center">
+                  <Pagination
+                    count={Math.ceil(totalCards / 6)}
+                    page={currentPage}
+                    onChange={(event, page) => setCurrentPage(page)}
+                    shape="rounded"
+                  />
+                </Stack>
               </Grid>
-            ) : (
-              <Typography variant="h6" align="center" sx={{ width: "100%" }}>
-                No matches found.
-              </Typography>
-            )}
-          </Box>
-        </Box>
-        <Stack spacing={2} alignItems="center">
-          <Pagination
-            count={Math.ceil(totalCards / 6)}
-            page={currentPage}
-            onChange={(event, page) => setCurrentPage(page)}
-            shape="rounded"
-          />
-        </Stack>
+            </Grid>
+          ) : (
+            // {/* // </Grid> */}
+            <Typography variant="h6" align="center" sx={{ width: "100%" }}>
+              No matches found.
+            </Typography>
+          )}
+        </Grid>
+        {/* </Grid>       */}
+        {/* </Box> */}
+        {/* </Box> */}
+
         <Snackbar
           open={openError}
           autoHideDuration={5000}
@@ -178,7 +206,9 @@ export default function Market() {
             {errorMessage}
           </Alert>
         </Snackbar>
-      </Box>
+        {/* </Box> */}
+      </Grid>
+      {/* </Grid> */}
     </>
   );
 }
