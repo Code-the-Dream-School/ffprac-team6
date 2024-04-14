@@ -1,5 +1,6 @@
 "use client";
-import { Avatar, Box, Button } from "@mui/material";
+import  { useRouter } from "next/navigation"
+import { Avatar, Paper, Button } from "@mui/material";
 
 export default function AvatarSection({
   avatarPreview,
@@ -9,14 +10,14 @@ export default function AvatarSection({
   submitAvatar,
   theme
 }) {
+  const router = useRouter();
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="space-between"
-      alignItems="center"
+    <Paper
       sx={{
-        p: 2
+        p: 5,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
       }}>
       <Avatar src={avatarPreview} sx={{ width: 180, height: 180 }} />
       <input
@@ -29,45 +30,48 @@ export default function AvatarSection({
       />
       {isEditAvatar ? (
         <Button
+          fullWidth
           onClick={submitAvatar}
           type="submit"
           variant="contained"
-          color="secondary"
+          color="primary"
           component="span"
           sx={{
-            "letterSpacing": "0.1em",
-            "mt": 2,
-            "width": "50%",
-            "&:hover": {
-              backgroundColor: theme.palette.accent.main
-            }
+            letterSpacing: "0.1em",
+            mt: 3
           }}>
           Save Photo
         </Button>
       ) : (
         <Button
+          fullWidth
           type="button"
           onClick={() => fileInputRef.current.click()}
           variant="contained"
-          color="secondary"
-          component="span"
-          sx={{ mt: 2, width: "50%" }}>
+          color="primary"
+          sx={{
+            letterSpacing: "0.1em",
+            mt: 3
+          }}
+          component="span">
           Edit Photo
         </Button>
       )}
       <Button
+        fullWidth
+        type="button"
+        onClick={() => router.push("/sell/add")}
         variant="contained"
-        color="secondary"
+        color="accent"
         sx={{
-          "letterSpacing": "0.1em",
-          "mt": 2,
-          "width": "50%",
+          letterSpacing: "0.1em",
+          mt: 2,
           "&:hover": {
             backgroundColor: theme.palette.accent.main
           }
         }}>
         Add Card to Sell
       </Button>
-    </Box>
+    </Paper>
   );
 }

@@ -94,5 +94,10 @@ export const theme = createTheme({
         size: "small"
       }
     }
+  },
+  mixins: {
+    toolbar: {
+      minHeight: 64
+    }
   }
 });

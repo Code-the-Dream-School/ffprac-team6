@@ -3,21 +3,21 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { theme } from "/styles/theme.js";
-import { 
-  Grid, 
-  Typography, 
-  Paper, 
-  Divider, 
-  Checkbox, 
-  Button, 
-  TextField, 
-  Alert, 
-  Dialog, 
-  DialogActions, 
+import {
+  Grid,
+  Typography,
+  Paper,
+  Divider,
+  Checkbox,
+  Button,
+  TextField,
+  Alert,
+  Dialog,
+  DialogActions,
   DialogContent,
-  useMediaQuery
+  useMediaQuery,
+  Box
 } from "@mui/material";
-
 
 // Custom hook for countdown timer interval
 function useCountdown(initialTime, onEnd) {
@@ -40,22 +40,25 @@ function useCountdown(initialTime, onEnd) {
 }
 
 // Function for counting down time
-function CartItem({ item, index, handleCheck, removeItemFromCart, handleQuantityChange, cartItems}) {
+function CartItem({ item, index, handleCheck, removeItemFromCart, handleQuantityChange, cartItems }) {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
-  const timeLeft = useCountdown(1 * 60, () => setOpen(true));{/* For the presentation should be changed for useCountdown(15 * 60, */}
+  const timeLeft = useCountdown(1 * 60, () => setOpen(true));
+  {
+    /* For the presentation should be changed for useCountdown(15 * 60, */
+  }
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
-  // handleClose is to close the dialog 
+  // handleClose is to close the dialog
   const handleClose = () => {
     setOpen(false);
   };
- 
-  // handleCheckout - to navigate to the checkout page 
+
+  // handleCheckout - to navigate to the checkout page
   const handleCheckout = () => {
-  router.push('/cart/checkout'); 
-  handleClose(); 
+    router.push("/cart/checkout");
+    handleClose();
   };
 
   //handleRemove - to remove the item from the cart
@@ -64,14 +67,15 @@ function CartItem({ item, index, handleCheck, removeItemFromCart, handleQuantity
     handleClose();
   };
 
-
   return (
     <React.Fragment key={item.id}>
       <Grid container sx={{ mt: 2, mb: 1, justifyContent: "flex-start" }} spacing={2}>
         {/* Checkbox, img, and Price */}
         <Grid item xs={12} sm={4} sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-            <Checkbox checked={item.checked} onChange={() => handleCheck(index)} />
+          <Grid item xs={12} sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <Box>
+              <Checkbox checked={item.checked} onChange={() => handleCheck(index)} />
+            </Box>
             <img src={`/cards/${item.img}`} alt={item.name} style={{ width: 100, height: 120 }} />
           </Grid>
           <Grid item xs={12} sx={{ mt: 1, pl: 5, display: "flex", textAlign: "center", textAlign: "center" }}>
@@ -107,22 +111,21 @@ function CartItem({ item, index, handleCheck, removeItemFromCart, handleQuantity
         </Grid>
       </Grid>
       {index < cartItems.length - 1 && <Divider />} {/* Don't render a divider after the last item */}
-
       {/*Alert Box*/}
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title" // for visually impaired users provide context about what the dialog is for
-        aria-describedby="alert-dialog-description"
-      >
+        aria-describedby="alert-dialog-description">
         <DialogContent>
-          <Alert  color="text.primary">
-            Your time is up.<br/>
+          <Alert color="text.primary">
+            Your time is up.
+            <br />
             Would you like to proceed to checkout or remove your reserved item?
           </Alert>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleRemove}  color="secondary">
+          <Button onClick={handleRemove} color="secondary">
             Remove
           </Button>
           <Button onClick={handleCheckout} color="accent" autoFocus>

@@ -51,9 +51,11 @@ const UserSchema = new Schema({
   },
   address: {
     type: String,
+    maxLength: 50,
     required: function () {
       return this.isSeller === true;
     }
+    
   },
   isSeller: {
     type: Boolean,

@@ -64,7 +64,7 @@ const Team = () => {
 
         {
             name: 'Elena Cherpakova',
-            description: 'Backend Developer',
+            description: 'Full Stack Developer',
             githubUsername: 'ElenaCherpakova',
             image: '/images/elena-cherpakova.png',
             width: 200,

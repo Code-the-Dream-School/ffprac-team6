@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongo/dbConnect";
 import { getToken } from "next-auth/jwt";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import Card from "@/models/Card";
 
 /**
@@ -61,12 +63,13 @@ export async function GET(req, res) {
   try {
     //fetch filtered cards from the database with pagination
     const cards = await Card.find(searchQuery).skip(skip).limit(limit);
+    console.log("cards", cards);
     const total = await Card.countDocuments(searchQuery);
-
+    console.log("total", total);
     if (!cards) {
       return NextResponse.json({ success: false, message: error.message || "No cards found" }, { status: 400 });
     }
-
+    console.log("cards, total, page, limit", cards, total, page, limit);
     return NextResponse.json({ success: true, data: { cards, total, page, limit } }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ success: false, message: error }, { status: 400 });
@@ -76,9 +79,11 @@ export async function GET(req, res) {
 //Create card
 export async function POST(req) {
   await dbConnect();
+
   try {
     const token = await getToken({ req });
-    if (!token) {
+    //protecting the route with token and seller authentication
+    if (!token || !token.user.isSeller) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
     const userId = token.user._id;
@@ -134,9 +139,11 @@ export async function POST(req) {
 //Delete all cards
 export async function DELETE(req) {
   await dbConnect();
+
   try {
     const token = await getToken({ req });
-    if (!token) {
+    //protecting the route with token and seller authentication
+    if (!token || !token.user.isSeller) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
     const userId = token.user._id;

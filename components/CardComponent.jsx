@@ -5,22 +5,25 @@ import { useRouter } from "next/navigation";
 import AddToCartButton from "./AddToCartButton";
 
 /**
- *
- * @param {card} Object
- * @param {showButtons} Boolean
+ * @param {object} props
+ * @param {object} props.card
+ * @param {boolean} [props.showButtons]
+ * @param {boolean} [props.showInformation]
+ * @param {card} Object //??
+ * @param {showButtons} Boolean //??
  */
 
-export default function CardComponent({ card, showButtons = true, buttonSet }) {
+export default function CardComponent({ card, showButtons = true, showInformation = true, showInformation = true }) {
   const router = useRouter();
 
   // const buyNow = () => {
   //   console.log("buy now");
   // };
 
-  const handleEdit = event => {
-    event.stopPropagation(); // Prevents click event from bubbling up to CardActionArea
-    onEdit(card.id);
-  };
+  // const handleEdit = event => {
+  //   event.stopPropagation(); // Prevents click event from bubbling up to CardActionArea
+  //   onEdit(card.id);
+  // };
 
   // const handleDelete = (event) => {
   //   event.stopPropagation(); // Prevents click event from bubbling up to CardActionArea

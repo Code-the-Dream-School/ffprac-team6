@@ -16,6 +16,13 @@ import {
 import SelectComponent from "./SelectComponent";
 import useDebounce from "@/hooks/useDebounce";
 
+/**
+ * @param {object} props
+ * @param {object} props.filtersParams
+ * @param {boolean} [props.sellerPage]
+ * @param {string} [props.sellerId]
+ */
+
 const categories = ["Magic", "Pokemon", "Digimon", "Yu-Gi-Oh!", "Sport Card"];
 const conditionsByCardCategory = {
   "Magic": ["Near Mint", "Lightly Played", "Moderately Played", "Heavily Played", "Damaged"],
@@ -25,7 +32,7 @@ const conditionsByCardCategory = {
   "Sport Card": ["Near Mint", "Excellent", "Very good", "Poor"]
 };
 
-const Filter = ({ filtersParams }) => {
+const Filter = ({ filtersParams, sellerPage = false, sellerId = null }) => {
   const [conditionsOptions, setConditionsOptions] = useState([]);
   const [filters, setFilters] = useState({
     category: "",
@@ -35,7 +42,10 @@ const Filter = ({ filtersParams }) => {
     priceFrom: filtersParams.priceFrom || "0",
     priceTo: filtersParams.priceTo || "5000"
   });
-  const debouncedPriceRange = useDebounce([filters.priceFrom, filters.priceTo], 500);
+  //debounce each priceFrom and priceTo separately to prevent multiple API calls
+  const debouncedPriceFrom = useDebounce(filters.priceFrom, 500);
+  const debouncedPriceTo = useDebounce(filters.priceTo, 500);
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -56,11 +66,21 @@ const Filter = ({ filtersParams }) => {
 
   useEffect(() => {
     updateQueryStringAndNavigate();
-  }, [filters, debouncedPriceRange, filtersParams.category, filtersParams.search]);
+  }, [
+    debouncedPriceFrom,
+    debouncedPriceTo,
+    filters.availability,
+    filters.category,
+    filters.conditions,
+    filters.search,
+    filtersParams.category,
+    filtersParams.search,
+    sellerPage
+  ]);
 
   const updateQueryStringAndNavigate = () => {
     //creating a new URLSearchParams object from the current search parameters.
-    const queryParams = new URLSearchParams();  
+    const queryParams = new URLSearchParams();
     //checking if the current price range is default (0 to 5000)
     const defaultPriceRange = filters.priceFrom === "0" && filters.priceTo === "5000";
     //adding filter to queryParams if value is truthy and not part of default price range
@@ -70,7 +90,9 @@ const Filter = ({ filtersParams }) => {
       }
     });
     //constructing the new URL with the updated query parameters.
-    const newUrl = `/market/?${queryParams.toString()}`;
+    let newUrl = !sellerPage
+      ? `/market/?${queryParams.toString()}`
+      : `/market/seller/${sellerId}/?${queryParams.toString()}`;
     router.push(newUrl);
   };
 
@@ -107,9 +129,9 @@ const Filter = ({ filtersParams }) => {
       category: "",
       conditions: "",
       availability: "",
-      search: "",
+      search: ""
     });
-    router.push("/market");
+    sellerPage !== true ? router.push("/market") : router.push(`/market/seller/${sellerId}`);
   };
 
   const handleRemoveFilter = filterKey => {

@@ -8,9 +8,11 @@ import Card from "@/models/Card";
  * @param {NextRequest} req
  * @param {NextResponse} res
  */
+
 //all can watch single card
 export async function GET(req, res) {
   await dbConnect();
+
   try {
     //receive id from url
     const id = req.url.split("cards/")[1];
@@ -18,7 +20,6 @@ export async function GET(req, res) {
     const card = await Card.findOne({
       _id: id
     });
-    console.log(card);
     if (!card) {
       return NextResponse.json({ success: false, message: `No card with id: ${id}` }, { status: 400 });
     }
@@ -31,9 +32,11 @@ export async function GET(req, res) {
 //edit data
 export async function PATCH(req, res) {
   await dbConnect();
+
   try {
     const token = await getToken({ req });
-    if (!token) {
+    //protecting the route with token and seller authentication
+    if (!token || !token.user.isSeller) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
     const userId = token.user._id;
@@ -67,7 +70,8 @@ export async function DELETE(req, res) {
   await dbConnect();
   try {
     const token = await getToken({ req });
-    if (!token) {
+    //protecting the route with token and seller authentication
+    if (!token || !token.user.isSeller) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
     const userId = token.user._id;

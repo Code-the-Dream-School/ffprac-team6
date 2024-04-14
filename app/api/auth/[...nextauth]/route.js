@@ -61,7 +61,7 @@ export const authOptions = {
           await dbConnect();
 
           const user = await User.findOne({ email });
-          // console.log("userExist", user);
+
           if (!user) {
             const hashPassword = await bcrypt.hash(sub, 10);
             const newUser = new User({
@@ -96,7 +96,8 @@ export const authOptions = {
             name: user.name,
             email: user.email,
             avatar: user.imageProfileURL,
-            isSeller: user.isSeller
+            isSeller: user.isSeller,
+            address: user.address
           };
         }
       }
@@ -109,7 +110,8 @@ export const authOptions = {
           name: session.user.name,
           email: session.user.email,
           avatar: session.user.avatar,
-          isSeller: session.user.isSeller
+          isSeller: session.user.isSeller,
+          address: session.user.address
         };
       }
       console.log("token", token.user);
@@ -123,7 +125,8 @@ export const authOptions = {
           name: token.user.name,
           email: token.user.email,
           avatar: token.user.avatar,
-          isSeller: token.user.isSeller
+          isSeller: token.user.isSeller,
+          address: token.user.address
         };
       }
       console.log("session", session);

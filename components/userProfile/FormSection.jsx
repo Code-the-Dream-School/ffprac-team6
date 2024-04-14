@@ -1,7 +1,7 @@
 "use client";
 import { Box, Button, Paper, TextField } from "@mui/material";
 
-export default function FormSection({ handleChange, userData, isEditing, handleSubmit, error, theme }) {
+export default function FormSection({ handleChange, userData, isEditing, handleSubmit, error, theme, isSeller }) {
   return (
     <Paper
       padding={2}
@@ -44,6 +44,20 @@ export default function FormSection({ handleChange, userData, isEditing, handleS
           error={Boolean(error.emailError)}
           helperText={error.emailError}
         />
+        {isSeller && (
+          <TextField
+            label="Location"
+            name="address"
+            placeholder="e.g., Canada, Toronto"
+            value={userData.address}
+            sx={{ mb: 2 }}
+            disabled={!isEditing}
+            onChange={handleChange}
+            required
+            error={Boolean(error.addressError)}
+            helperText={error.addressError}
+          />
+        )}
 
         <Box display="flex" justifyContent="space-between" width="100%" mt={2}>
           <Button
@@ -53,7 +67,7 @@ export default function FormSection({ handleChange, userData, isEditing, handleS
             onClick={handleSubmit}
             disabled={
               isEditing &&
-              (Boolean(error.nameError) || Boolean(error.emailError) || !userData.name.trim() || !userData.email.trim())
+              (Boolean(error.nameError) || Boolean(error.emailError) || Boolean(error.addressError) || !userData.name.trim() || !userData.email.trim() || !userData.address.trim())
             }
             sx={{
               "mt": 2,

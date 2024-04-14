@@ -9,6 +9,7 @@ import { useTheme } from "@mui/material/styles";
 import { useSession } from "next-auth/react";
 import useAuthUser from "../store/useAuthUser";
 import {
+  Badge,
   Box,
   Button,
   Typography,
@@ -23,14 +24,15 @@ import {
   Tooltip,
   Avatar
 } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import { Search, ShoppingCart } from "@mui/icons-material";
 
 const Navbar = () => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [searchInput, setSearchInput] = useState("");
-  // const [isSeller, setIsSeller] = useState(false);
+  //Cart badge count
+  const [count, setCount] = useState(0);
   const router = useRouter();
   const { logout } = useAuthUser();
   const { data: session } = useSession();
@@ -172,6 +174,15 @@ const Navbar = () => {
               />
             </Box>
             <Box flexGrow={1} />
+            <Badge color="warning" badgeContent={count} overlap="circular">
+              <IconButton
+                color="inherit"
+                onClick={() => {
+                  router.push("/cart");
+                }}>
+                <ShoppingCart />
+              </IconButton>
+            </Badge>
             {session ? (
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
@@ -222,11 +233,9 @@ const Navbar = () => {
                 </Menu>
               </Box>
             ) : (
-              <>
-                <Button id="cards-button" color="inherit" onClick={() => router.push("/signin")} variant="outlined">
-                  Login
-                </Button>
-              </>
+              <Button id="cards-button" color="inherit" onClick={() => router.push("/signin")} variant="outlined">
+                Login
+              </Button>
             )}
           </Box>
         </Toolbar>

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import useImageUpload from "../hooks/useImageUpload";
+import { theme } from "../styles/theme";
 import {
   Box,
   Button,
@@ -21,8 +22,9 @@ import Image from "next/image";
 
 /**
  *
- * @param {cardValue} Object
- * @param {onSubmitForm} Function
+ * @param {object} props
+ * @param {object} props.cardValue
+ * @param {function} props.onSubmitForm
  */
 
 export default function CardForm({ cardValue, onSubmitForm }) {
@@ -67,13 +69,13 @@ export default function CardForm({ cardValue, onSubmitForm }) {
     if (file) {
       setSelectedFile(file);
     }
-  }
+  };
 
   const handlePaperClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const { cardName, set, price, currency, shippingCost, description, conditions, quantity, available } =
@@ -293,6 +295,9 @@ export default function CardForm({ cardValue, onSubmitForm }) {
                   name="quantity"
                   type="number"
                   label="quantity"
+                  inputProps={{
+                    min: "0"
+                  }}
                   defaultValue={cardValue?.quantity}
                 />
                 <FormControl required fullWidth size="small">
@@ -309,7 +314,15 @@ export default function CardForm({ cardValue, onSubmitForm }) {
                   </Select>
                 </FormControl>
               </Box>
-              <Button variant="contained" color="secondary" type="submit">
+              <Button
+                variant="contained"
+                color="secondary"
+                type="submit"
+                sx={{
+                  "&:hover": {
+                    backgroundColor: theme.palette.accent.main
+                  }
+                }}>
                 {editCard ? "Edit" : "Add"} card
               </Button>
             </Box>
