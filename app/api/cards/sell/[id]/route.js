@@ -28,7 +28,6 @@ export async function GET(req, res) {
       return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
     }
 
-    //fetch filtered cards from the database with pagination
     const cards = await Card.find({ createdBy: id });
 
     if (!cards || cards.length === 0) {
