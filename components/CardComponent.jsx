@@ -5,15 +5,12 @@ import { useRouter } from "next/navigation";
 import AddToCartButton from "./AddToCartButton";
 
 /**
- * @param {object} props
- * @param {object} props.card
- * @param {boolean} [props.showButtons]
- * @param {boolean} [props.showInformation]
- * @param {card} Object //??
- * @param {showButtons} Boolean //??
+ 
+ * @param {card} Object 
+ * @param {showButtons} Boolean 
  */
 
-export default function CardComponent({ card, showButtons = true, showInformation = true, showInformation = true }) {
+export default function CardComponent({ card, showButtons = true, showInformation = true }) {
   const router = useRouter();
 
   // const buyNow = () => {
@@ -37,8 +34,7 @@ export default function CardComponent({ card, showButtons = true, showInformatio
         display: "flex",
         flexDirection: "column",
         border: "none",
-        maxWidth: 160,
-        // height: "80%",
+        maxWidth: 200,
         justifyContent: "space-between"
       }}>
       <CardActionArea
@@ -53,7 +49,7 @@ export default function CardComponent({ card, showButtons = true, showInformatio
           component="img"
           image={card.imageURL}
           alt={card.name}
-          height={250}
+          height={280}
         />
         <CardContent sx={{ p: 0.5 }}>
           {/* <Box sx={{ display: "flex", flexDirection: "column" }}> */}
