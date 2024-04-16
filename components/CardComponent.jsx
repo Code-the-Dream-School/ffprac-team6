@@ -34,7 +34,7 @@ export default function CardComponent({ card, showButtons = true, showInformatio
         display: "flex",
         flexDirection: "column",
         border: "none",
-        maxWidth: 200,
+        maxWidth: 180,
         justifyContent: "space-between"
       }}>
       <CardActionArea
@@ -49,7 +49,7 @@ export default function CardComponent({ card, showButtons = true, showInformatio
           component="img"
           image={card.imageURL}
           alt={card.name}
-          height={280}
+          height={"60%"}
         />
         <CardContent sx={{ p: 0.5 }}>
           {/* <Box sx={{ display: "flex", flexDirection: "column" }}> */}

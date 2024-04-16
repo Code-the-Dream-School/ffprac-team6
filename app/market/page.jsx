@@ -63,21 +63,28 @@ export default function Market() {
 
   return (
     <>
-      <Grid container sx={{ p: 0, m: 3, flexDirection: { xs: "column", sm: "row" } }} spacing={3}>
+      <Grid container sx={{ height: "100vh", p: 0, m: 3, flexDirection: { xs: "column", sm: "row" } }} spacing={3}>
         <Grid
           item
           xs={12}
           sm={5}
           md={4}
           lg={3}
-          sx={{ border: 1, borderColor: "gray.300", borderRadius: 2, p: 2, boxShadow: 3 }}>
+          // sx={{ paddingTop: 0 }}
+          // sx={{ border: 1, borderColor: "gray.300", borderRadius: 2, p: 2, boxShadow: 3 }}
+        >
           <Box
             display={{ xs: "block", sm: "none" }}
             sx={{
               m: 0.5,
               position: "fixed",
               top: 70,
-              left: 20
+              left: 20,
+              border: 1,
+              borderColor: "gray.300",
+              borderRadius: 2,
+              p: 2,
+              boxShadow: 3
             }}>
             <FilterListIcon sx={{ fontSize: 40 }} onClick={() => setFilterOpen(true)} />
           </Box>
@@ -136,22 +143,24 @@ export default function Market() {
         </Grid>
         <Grid item xs={12} sm={7} md={8} lg={9} sx={{ paddingInline: 5, flex: 8, width: "100%" }}>
           {cards.length > 0 ? (
-            <Grid container spacing={3} sx={{ p: 2 }}>
+            <Grid container spacing={3} sx={{ paddingTop: 0 }}>
               {cards.map(card => (
-                <Grid item xs={12} sm={6} md={4} lg={4} key={card._id} align="center" sx={{ p: 2 }}>
+                <Grid item xs={12} sm={6} md={4} lg={4} key={card._id} align="center" sx={{ p: 1 }}>
                   <CardComponent card={card} />
                 </Grid>
               ))}
 
-              <Grid item xs={12} sx={{ textAlign: "center" }} align="center">
-                <Stack spacing={2} alignItems="center">
+              <Grid item xs={12} sx={{ textAlign: "center", bottom: 0, left: "50%" }}>
+                <Grid container justifyContent="center" alignItems="flex-end">
+                  {/* <Stack spacing={2} alignItems="center"> */}
                   <Pagination
                     count={Math.ceil(totalCards / 6)}
                     page={currentPage}
                     onChange={(event, page) => setCurrentPage(page)}
                     shape="rounded"
                   />
-                </Stack>
+                  {/* </Stack> */}
+                </Grid>
               </Grid>
             </Grid>
           ) : (
