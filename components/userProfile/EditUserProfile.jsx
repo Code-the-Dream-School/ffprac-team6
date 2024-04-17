@@ -3,7 +3,7 @@ import { React, useState, useEffect, useRef } from "react";
 import { useSession, getSession } from "next-auth/react";
 
 import { useTheme } from "@mui/material/styles";
-import { Typography, Grid, Backdrop, CircularProgress } from "@mui/material";
+import { Typography, Grid, Backdrop, CircularProgress, Snackbar, Alert } from "@mui/material";
 
 import useAuthUser from "@/store/useAuthUser";
 import useImageUpload from "@/hooks/useImageUpload";
@@ -21,6 +21,8 @@ export default function UserProfileEditPage() {
   const [isEditAvatar, setIsEditAvatar] = useState(false);
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
+  const [openError, setOpenError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const fileInputRef = useRef(null);
   const { data: session, update: updateSession, status } = useSession();
   console.log("session", session);
@@ -32,14 +34,20 @@ export default function UserProfileEditPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const session = await getSession();
-      if (session && status === "authenticated") {
-        setUserData({
-          name: session?.user?.name,
-          email: session?.user?.email,
-          address: session?.user?.address
-        });
-        setAvatarPreview(session?.user?.avatar);
+      try {
+        const session = await getSession();
+        if (session && status === "authenticated") {
+          setUserData({
+            name: session?.user?.name,
+            email: session?.user?.email,
+            address: session?.user?.address
+          });
+          setAvatarPreview(session?.user?.avatar);
+        }
+      } catch (error) {
+        console.error(error);
+        setOpenError(true);
+        setErrorMessage(error.toString() || "unknown error");
       }
     };
     fetchData();
@@ -147,6 +155,12 @@ export default function UserProfileEditPage() {
   if (!session) {
     return null;
   }
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenError(false);
+  };
   return (
     <>
       <Grid
@@ -201,6 +215,15 @@ export default function UserProfileEditPage() {
         open={loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
+      <Snackbar
+        open={openError}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: "100%" }}>
+          {errorMessage}
+        </Alert>
+      </Snackbar>
     </>
   );
 }

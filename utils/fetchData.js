@@ -46,8 +46,9 @@ export async function fetchAllCardsData(searchTerm, filters, page, limit) {
 export async function fetchCardData(id) {
   const response = await fetch(`/api/cards/${id}`);
   if (!response.ok) {
-    console.log(data.errors);
-    const detailedErrorMessage = data.errors ? data.errors.join(", ") : data.message;
+    const errorData = await response.json();
+    console.log("errorData", errorData);
+    const detailedErrorMessage = errorData.errors ? errorData.errors.join(", ") : errorData.message;
     throw new Error(detailedErrorMessage || "Unknown error occurred.");
   }
   const data = await response.json();
@@ -80,8 +81,9 @@ export async function createCardData(formData) {
     body: JSON.stringify(formData)
   });
   if (!response.ok) {
-    console.log(data.errors);
-    const detailedErrorMessage = data.errors ? data.errors.join(", ") : data.message;
+    const errorData = await response.json();
+    console.log("errorData", errorData);
+    const detailedErrorMessage = errorData.errors ? errorData.errors.join(", ") : errorData.message;
     throw new Error(detailedErrorMessage || "Unknown error occurred.");
   }
   const data = await response.json();
@@ -120,20 +122,24 @@ export async function fetchSellerCards(sellerId, filters, page, limit) {
   }
   console.log("url1", url);
   const response = await fetch(url);
+  console.log("response", response);
   if (!response.ok) {
-    console.log(data.errors);
-    const detailedErrorMessage = data.errors ? data.errors.join(", ") : data.message;
+    const errorData = await response.json();
+    console.log("errorData", errorData);
+    const detailedErrorMessage = errorData.errors ? errorData.errors.join(", ") : errorData.message;
     throw new Error(detailedErrorMessage || "Unknown error occurred.");
   }
   const data = await response.json();
+  console.log();
   return data.data;
 }
 
 export async function fetchSellerData(id) {
   const response = await fetch(`/api/seller/${id}`);
   if (!response.ok) {
-    console.log(data.errors);
-    const detailedErrorMessage = data.errors ? data.errors.join(", ") : data.message;
+    const errorData = await response.json();
+    console.log("errorData", errorData);
+    const detailedErrorMessage = errorData.errors ? errorData.errors.join(", ") : errorData.message;
     throw new Error(detailedErrorMessage || "Unknown error occurred.");
   }
   const data = await response.json();

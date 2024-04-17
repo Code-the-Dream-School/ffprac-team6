@@ -51,24 +51,26 @@ export default function CardComponent({ card, showButtons = true, showInformatio
           alt={card.name}
           height={"60%"}
         />
-        <CardContent sx={{ p: 0.5 }}>
-          {/* <Box sx={{ display: "flex", flexDirection: "column" }}> */}
-          <Typography gutterBottom variant="body2" fontWeight="bold" component="div" flexGrow="1">
-            {card.name}
-          </Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", gap: 1 }}>
-            <Typography gutterBottom variant="body2" component="div">
-              {card.category}
-            </Typography>
-            <Typography gutterBottom variant="body2" component="div">
-              {card.conditions}
-            </Typography>
-          </Box>
-          <Typography gutterBottom variant="body2" component="div">
-            {card.price} {card.currency}
-          </Typography>
-          {/* </Box> */}
-        </CardContent>
+        {showInformation && (
+          <CardContent sx={{ p: 0.5 }}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <Typography gutterBottom variant="body2" component="div" flexGrow="1">
+                {card.name}
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                <Typography gutterBottom variant="body2" component="div">
+                  {card.category}
+                </Typography>
+                <Typography gutterBottom variant="body2" component="div">
+                  {card.conditions}
+                </Typography>
+              </Box>
+              <Typography gutterBottom variant="body2" component="div">
+                {card.price} {card.currency}
+              </Typography>
+            </Box>
+          </CardContent>
+        )}
       </CardActionArea>
       {showButtons && (
         <CardActions sx={{ p: 0.5, justifyContent: "center" }}>

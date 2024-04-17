@@ -63,14 +63,13 @@ export default function Market() {
 
   return (
     <>
-      <Grid container sx={{ height: "100vh", p: 0, m: 3, flexDirection: { xs: "column", sm: "row" } }} spacing={3}>
+      <Grid container sx={{ p: 2, m: 3, flexDirection: { xs: "column", sm: "row" } }} spacing={3}>
         <Grid
           item
           xs={12}
           sm={5}
           md={4}
           lg={3}
-          // sx={{ paddingTop: 0 }}
           // sx={{ border: 1, borderColor: "gray.300", borderRadius: 2, p: 2, boxShadow: 3 }}
         >
           <Box

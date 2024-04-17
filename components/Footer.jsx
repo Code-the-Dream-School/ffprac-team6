@@ -16,12 +16,12 @@ const Footer = () => {
         <Link href="/team" style={{ textDecoration: "none", color: "#FFFFFF" }}>
           Our Team
         </Link>
-        <Link href="/policies" style={{ textDecoration: "none", color: "#FFFFFF" }}>
+        {/* <Link href="/policies" style={{ textDecoration: "none", color: "#FFFFFF" }}>
           Policies
         </Link>
         <Link href="/messages" style={{ textDecoration: "none", color: "#FFFFFF" }}>
           Contact Us
-        </Link>
+        </Link> */}
       </Box>
     </>
   );

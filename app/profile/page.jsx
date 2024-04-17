@@ -79,7 +79,7 @@ export default function Profile() {
         setErrorMessage(data.message || "Failed to become a seller");
       }
     } catch (error) {
-      setErrorMessage(data.message || "An error occurred while updating");
+      setErrorMessage(error.toString() || "An error occurred while updating");
     }
     setLoading(false);
   };

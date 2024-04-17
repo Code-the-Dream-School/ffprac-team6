@@ -252,7 +252,7 @@ export default function Seller({ params }) {
             </Grid>
             <Grid item xs>
               {cards.length > 0 ? (
-                <Grid container gap={5}>
+                <Grid container spacing={2}>
                   {cards.map(card => (
                     <Grid item key={card._id} xs={12} md={4} sx={{ display: "flex", justifyContent: "center" }}>
                       <CardComponent key={card._id} card={card} showButtons={showButtons} />

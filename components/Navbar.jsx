@@ -52,12 +52,12 @@ const Navbar = () => {
       displayName: "Sell",
       onClick: () => router.push("/sell"),
       show: session?.user?.isSeller
-    },
-    {
-      displayName: "Wishlist",
-      onClick: () => router.push("/watch"),
-      show: true
     }
+    // {
+    //   displayName: "Wishlist",
+    //   onClick: () => router.push("/watch"),
+    //   show: true
+    // }
   ];
   const categories = ["Magic", "Pokemon", "Digimon", "Yu-Gi-Oh!", "Sport Card"];
 
