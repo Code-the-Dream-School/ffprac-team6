@@ -14,7 +14,6 @@ export const GET = async () => {
   await dbConnect();
   const session = await getServerSession(authOptions);
 
-  console.log(session);
   if (!session || !session.user) {
     return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
   }
@@ -22,7 +21,7 @@ export const GET = async () => {
 
   try {
     const user = await User.findOne({ email });
-    console.log("USER", user)
+
     if (!user) {
       return NextResponse.json({ success: false, message: "No such user found." }, { status: 404 });
     }

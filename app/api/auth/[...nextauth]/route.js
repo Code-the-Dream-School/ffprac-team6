@@ -102,7 +102,6 @@ export const authOptions = {
         }
       }
 
-      console.log("token user", token);
       if (trigger === "update" && session?.user) {
         token.user = {
           ...token.user,
@@ -114,7 +113,6 @@ export const authOptions = {
           address: session.user.address
         };
       }
-      console.log("token", token.user);
       return token;
     },
     async session({ session, token }) {
@@ -129,7 +127,6 @@ export const authOptions = {
           address: token.user.address
         };
       }
-      console.log("session", session);
       return session;
     }
   },
