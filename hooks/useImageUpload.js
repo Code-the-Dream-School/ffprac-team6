@@ -55,7 +55,52 @@ const useImageUpload = () => {
     }
   };
 
-  return { handleImageUpload, imageURL, imagePublicId, error };
+  const handleImageDelete = async publicId => {
+    try {
+      const timestamp = Math.round(new Date().getTime() / 1000);
+      const bodyData = JSON.stringify({
+        public_id: publicId,
+        timestamp: timestamp
+      });
+
+      const signatureRes = await fetch("/api/cloudinary-signature-delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: bodyData
+      });
+
+      if (!signatureRes.ok) {
+        throw new Error("Failed to fetch the Cloudinary delete signature.");
+      }
+      const { signature } = await signatureRes.json();
+
+      const formData = new FormData();
+      formData.append("public_id", publicId);
+      formData.append("timestamp", timestamp);
+      formData.append("signature", signature);
+      formData.append("api_key", process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY);
+
+      const deleteUrl = `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_NAME}/image/destroy`;
+      const deleteRes = await fetch(deleteUrl, { method: "POST", body: formData });
+      const deleteData = await deleteRes.json();
+
+      if (!deleteRes.ok) {
+        throw new Error(deleteData.error?.message || "Failed to delete image from Cloudinary.");
+      }
+
+      if (deleteData.result === "ok") {
+        setImageURL("");
+        setImagePublicId("");
+      }
+
+      return deleteData;
+    } catch (error) {
+      setError("Failed to delete the image. Please try again.");
+      return { error: error.message };
+    }
+  };
+
+  return { handleImageUpload, handleImageDelete, imageURL, imagePublicId, error };
 };
 
 export default useImageUpload;
